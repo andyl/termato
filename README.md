@@ -8,8 +8,10 @@ workday into 25-minute chunks separated by five-minute breaks. These intervals
 are referred to as pomodoros.  After about four pomodoros, you take a longer
 break of about 15 to 20 minutes.
 
-Termato is written in Elixir, tested only on Linux, used daily in my personal
-work.
+Termato is written in Elixir, tested only on Linux, used in my personal work.
+
+To get this working, you'll have to have Elixir 1.12+, a Ruby environment, and
+the ruby gem `erlang-etf`.
 
 ## Installation
 
@@ -37,14 +39,14 @@ first follower that successfully starts an HTTP server becomes the new leader.
 Check out the `loop` function in the module `Termato.Zookeeper` to see how the
 failover works.  Just a few lines of code!
 
-Ambient, ubiquitous Pomodoro!
-
 ## Notes
 
 Termato is a nice fit for OTP. It uses a collection of server processes -
-Agents, GenServers and Tasks.  To get Termato into shape for wide distribution,
-you'd need to find a portable solution for reading single-characters from the
-keyboard, which caused me some difficulty.  See my hack in `Util.Kb.getch`.  
+Agents, GenServers and Tasks.  
+
+To get Termato into shape for wide distribution, you'd need to find a portable
+solution for reading single-characters from the keyboard, which caused me some
+difficulty.  See my hack in `Util.Kb.getch`.  
 
 ## Contributing
 
