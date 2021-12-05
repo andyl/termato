@@ -33,7 +33,7 @@ defmodule Termato.Application do
 
   # you can call this from an Elixir script - see example in README.md
   def start_run do
+    System.no_halt(true)
     start(:ok, :ok)
-    Process.sleep(:infinity)
   end
 end
