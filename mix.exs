@@ -22,6 +22,8 @@ defmodule Termato.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:websockex, "~> 0.4.3"}, 
+      {:plug_socket, "~> 0.1.0"}, 
       {:plug_cowboy, "~> 2.0"},
       {:httpoison, "~> 1.8"}, 
     ]

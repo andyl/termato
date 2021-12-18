@@ -5,7 +5,7 @@ defmodule Termato.Application do
 
   def init do
     # required by HTTPoison...
-    Termato.HttpClient.start()
+    # Termato.HttpClient.start()
   end
 
   @impl true
@@ -14,13 +14,11 @@ defmodule Termato.Application do
     init()
 
     children = [
-      # HttpSupervisor is dynamic - allows HttpServer to be turned on and off as needed
+      # HttpSupervisor is dynamic - allows HttpServer to be turned on and off 
       {Termato.HttpSupervisor, []}, 
       {Termato.Counter, []}, 
       {Termato.Zookeeper, []}, 
-      # sometimes it's handy to disable IoReader and IoWriter for testing...
-      {Termato.IoReader, [:enabled]}, 
-      {Termato.IoWriter, [:enabled]}, 
+      {Termato.SockPidstore, []}, 
     ]
 
     opts = [strategy: :one_for_one, name: Termato.Supervisor]
