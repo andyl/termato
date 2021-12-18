@@ -16,6 +16,7 @@ defmodule Termato.Zookeeper do
   use Task 
 
   alias Termato.{HttpSupervisor, Counter, HttpClient}
+  alias Termato.SockHandler
 
   # ----- API -----
 
@@ -34,12 +35,14 @@ defmodule Termato.Zookeeper do
   defp loop do 
     if HttpSupervisor.server_live?() do 
       Counter.decrement()
+      SockHandler.broadcast("TICK", Counter.get_secs())
     else 
       case HttpClient.get_secs() do 
         :server_not_found -> HttpSupervisor.start_server()
         secs -> Counter.set_secs(secs)
       end
     end
+
 
     Process.sleep(1000)
 

@@ -15,9 +15,12 @@ defmodule Termato.HttpServer do
 
   alias Termato.Counter
 
+  use PlugSocket 
   use Plug.Router
   plug(:match)
   plug(:dispatch)
+
+  socket "/sock", Termato.SockHandler
 
   def start do
     Plug.Cowboy.http(Termato.HttpServer, [], port: @http_port)

@@ -9,8 +9,11 @@ defmodule Termato.HttpSupervisor do
   # ----- API -----
 
   def start_server do
-    opts = [ scheme: :http, plug: Termato.HttpServer, options: [port: 5555] ] 
+    data = [port: 5555, dispatch: PlugSocket.plug_cowboy_dispatch(Termato.HttpServer)]
+    opts = [ scheme: :http, plug: Termato.HttpServer, options: data ] 
     spec = { Plug.Cowboy, opts }
+
+    IO.puts("Starting Termato server on port 5555")
 
     case server_pid() do
       :no_server -> DynamicSupervisor.start_child(__MODULE__, spec)
