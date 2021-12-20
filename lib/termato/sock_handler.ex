@@ -26,8 +26,10 @@ defmodule Termato.SockHandler do
     |> send_all()
   end
 
-  def broadcast(msg_type, msg_value) when is_integer(msg_value) do 
-    ~s({"type": "#{msg_type}", "value": #{msg_value}})
+  def broadcast(type, secs) when is_integer(secs) do 
+    text = Util.Seconds.to_s(secs)
+    klas = Util.Seconds.klas(secs)
+    ~s({"type": "#{type}", "secs": #{secs}, "text": "#{text}", "klas": "#{klas}"})
     |> send_all()
   end
 

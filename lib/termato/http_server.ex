@@ -12,6 +12,7 @@ defmodule Termato.HttpServer do
   """
 
   @http_port 5555 
+  @template_dir "lib/termato/templates"
 
   alias Termato.Counter
 
@@ -30,19 +31,61 @@ defmodule Termato.HttpServer do
     "http://localhost:#{@http_port}"
   end
 
+  defp render(%{status: status} = conn, template, assigns) do
+    body =
+      @template_dir
+      |> Path.join(template)
+      |> String.replace_suffix(".html", ".html.eex")
+      |> EEx.eval_file(assigns)
+
+    send_resp(conn, (status || 200), body)
+  end
+
+  defp redirect(conn, url) do 
+    body = "<html><body>Redirect to #{url}</body></html>"
+    conn
+    |> put_resp_header("location", url)
+    |> send_resp(conn.status || 302, body)
+  end
+
+  defp redir_path(conn) do 
+    case conn.query_string do 
+      "" -> ""
+      string -> Plug.Conn.Query.decode(string)["redirect"] || ""
+    end
+  end
+
   get "/" do
+    render(conn, "live.html", secs: Counter.get_secs())
+  end
+
+  get "/raw" do 
     secs = Counter.get_secs()
     send_resp(conn, 200, "#{secs}")
   end
 
+  get "/html" do 
+    render(conn, "html.html", secs: Counter.get_secs())
+  end
+
+  get "/live" do 
+    render(conn, "live.html", secs: Counter.get_secs())
+  end
+
   get "/set_secs/:secs" do
     Counter.set_secs(secs)
-    send_resp(conn, 200, "OK")
+    case redir_path(conn) do
+      "" -> send_resp(conn, 200, "OK")
+      path -> redirect(conn, "/" <> path)
+    end
   end
 
   get "/set_mins/:mins" do
     Counter.set_mins(mins)
-    send_resp(conn, 200, "OK")
+    case redir_path(conn) do
+      "" -> send_resp(conn, 200, "OK")
+      path -> redirect(conn, "/" <> path)
+    end
   end
 
   match _ do

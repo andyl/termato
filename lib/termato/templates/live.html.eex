@@ -1,0 +1,78 @@
+<html>
+  <head>
+    <title id='title'>TERMATO</title>
+    <style>
+      td {
+        text-align: center; 
+        padding: 40px;
+      }
+      #display {
+        padding-top: 30px;
+      }
+      .green {
+        color: green;
+      }
+      .yellow {
+        background: black; 
+        color: yellow;
+      }
+      .magenta {
+        background: black; 
+        color: magenta;
+      }
+      .red {
+        background: black; 
+        color: red;
+      }
+      .text {
+        padding: 5px 10px 5px 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <center>
+    <h1>TERMATO</h1>
+    <h2 id="display"></h2>
+    <p>
+    <table>
+      <tr>
+        <td>
+          <a href="/set_mins/25?redirect=live">25 mins</a><br/>tomato task 
+        </td>
+        <td>
+          <a href="/set_mins/15?redirect=live">15 mins</a><br/>long break - after 4 tasks
+        </td>
+        <td>
+          <a href="/set_mins/5?redirect=live">5 mins</a><br/>short break - between tasks
+        </td>
+        <td>
+          <a href="/set_secs/5?redirect=live">5 secs</a><br/>test
+        </td>
+      </tr>
+    </table>
+    </center>
+
+    <script>
+        console.log("JAVASCRIPT INIT"); 
+        const ws = new WebSocket("ws://" + window.location.host + "/sock");
+            ws.addEventListener("open", () => {
+                    console.log("WEBSOCK CONNECTED");
+                    setInterval(() => { ws.send('{"type": "HEARTBEAT"}')}, 30000)
+                  });
+            ws.addEventListener("message", event => {
+                    // console.log(event);
+                    let data = JSON.parse(event.data); 
+                    if (data["type"] == "TICK") {
+                      let secs = data["secs"];
+                      let text = data["text"]; 
+                      let klas = data["klas"]; 
+                      let html = `<span class='text ${klas}'>${text}</span>`; 
+                      let titl = `TERMATO | ${text}`
+                      document.getElementById("title").innerHTML = titl
+                      document.getElementById("display").innerHTML = html; 
+                    } 
+                  }); 
+    </script>
+  </body>
+</html>
+

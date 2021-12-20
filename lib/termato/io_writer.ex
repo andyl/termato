@@ -88,11 +88,11 @@ defmodule Termato.IoWriter do
   defp prompt_text do 
     secs = Counter.get_secs() 
     text = "TERMATO | #{Counter.to_s()} > "
-    cond do 
-      secs < 0   -> text |> Util.Color.red() 
-      secs < 60  -> text |> Util.Color.magenta()
-      secs < 300 -> text |> Util.Color.yellow()
-      true       -> text |> Util.Color.green()
+    case Util.Seconds.klas(secs) do
+      "red"     -> text |> Util.Color.red() 
+      "magenta" -> text |> Util.Color.magenta()
+      "yellow"  -> text |> Util.Color.yellow()
+      true      -> text |> Util.Color.green()
     end
   end
 

@@ -91,18 +91,7 @@ defmodule Termato.Counter do
   """
   @spec to_s() :: String.t()
   def to_s do 
-    asec = get_secs() |> abs() 
-    days = div(asec, 3600 * 24) |> pad()
-    hors = rem(asec, 3600 * 24) |> div(3600) |> pad()
-    mins = div(asec, 60) |> rem(60) |> pad()
-    secs = rem(asec, 60) |> pad()
-    xdays = if days == "00", do: nil, else: "#{days}d"
-    xhors = if hors == "00", do: nil, else: "#{hors}h"
-    [xdays, xhors, "#{mins}m", "#{secs}s"] |> Enum.join(" ") |> String.trim()
-  end
-
-  defp pad(num) do 
-    "#{num}" |> String.pad_leading(2, "0") 
+    get_secs() |> Util.Seconds.to_s()
   end
 
 end

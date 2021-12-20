@@ -1,0 +1,13 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <h1>TERMATO HTML</h1>
+    <%= secs %> seconds
+    <p>
+    <a href="/set_mins/25?redirect=html">25 mins (tomato task)</a> | 
+    <a href="/set_mins/15?redirect=html">15 mins (long break - after 4 tasks)</a> | 
+    <a href="/set_mins/5?redirect=html">5 mins (short break - between tasks)</a> | 
+    <a href="/set_secs/5?redirect=html">5 secs (test)</a>  
+  </body>
+</html>
