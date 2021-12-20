@@ -10,12 +10,13 @@ break of about 15 to 20 minutes.
 
 Termato is written in Elixir, tested only on Linux, used in my personal work.
 
-To get this working, you'll have to have Elixir 1.12+, a Ruby environment, and
-the ruby gem `erlang-etf`.
+To get this working, you'll have to have Elixir 1.13+. To get the elixir client
+working, you'll need a Ruby environment (for `getch` - see `Util.Kb` for more
+info.
 
 ## Installation
 
-I run Termato from an executable script...
+You can run Termato from an executable script...
 
 ```bash
 #!/usr/bin/env elixir
@@ -25,7 +26,11 @@ Mix.install([{:termato, github: "andyl/termato"}])
 Termato.Application.start_run()
 ```
 
-Simple!
+## Websocket Client 
+
+The Termato server has a websocket listener.  There is a client script
+`termato_rb` that interacts over websockets. (Ping me if you want access to the
+source!)
 
 ## Multi Termato
 
@@ -39,15 +44,7 @@ first follower that successfully starts an HTTP server becomes the new leader.
 Check out the `loop` function in the module `Termato.Zookeeper` to see how the
 failover works.  Just a few lines of code!
 
-## Notes
-
-Termato is a nice fit for OTP. It uses a collection of server processes -
-Agents, GenServers and Tasks.  
-
-To get Termato into shape for wide distribution, you'd need to find a portable
-solution for reading single-characters from the keyboard, which caused me some
-difficulty.  See my hack in `Util.Kb.getch`.  
-
 ## Contributing
 
-PRs and issue welcome!
+This is mostly for my personal use, not maintained for community access.  But
+if you want to use it, go for it. Fork it, submit PRs and issues!
