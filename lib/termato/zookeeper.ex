@@ -43,6 +43,12 @@ defmodule Termato.Zookeeper do
       end
     end
 
+    if Counter.get_secs() == 0 do
+      case System.fetch_env("TERMATO_ALERT") do
+        {:ok, cmd} -> Task.async(fn -> System.cmd(cmd, []) end)
+        _ -> :ok 
+      end
+    end
 
     Process.sleep(1000)
 
