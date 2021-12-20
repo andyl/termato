@@ -13,6 +13,8 @@ defmodule Termato.HttpServer do
 
   @http_port 5555 
   @template_dir "lib/termato/templates"
+  @template_live @template_dir |> Path.join("live.html.eex") |> File.read!()
+  @template_html @template_dir |> Path.join("html.html.eex") |> File.read!()
 
   alias Termato.Counter
 
@@ -31,15 +33,15 @@ defmodule Termato.HttpServer do
     "http://localhost:#{@http_port}"
   end
 
-  defp render(%{status: status} = conn, template, assigns) do
-    body =
-      @template_dir
-      |> Path.join(template)
-      |> String.replace_suffix(".html", ".html.eex")
-      |> EEx.eval_file(assigns)
-
-    send_resp(conn, (status || 200), body)
-  end
+  # defp render(%{status: status} = conn, template, assigns) do
+  #   body =
+  #     @template_dir
+  #     |> Path.join(template)
+  #     |> String.replace_suffix(".html", ".html.eex")
+  #     |> EEx.eval_file(assigns)
+  #
+  #   send_resp(conn, (status || 200), body)
+  # end
 
   defp redirect(conn, url) do 
     body = "<html><body>Redirect to #{url}</body></html>"
@@ -56,7 +58,7 @@ defmodule Termato.HttpServer do
   end
 
   get "/" do
-    render(conn, "live.html", secs: Counter.get_secs())
+    send_resp(conn, 200, @template_live)
   end
 
   get "/raw" do 
@@ -65,11 +67,11 @@ defmodule Termato.HttpServer do
   end
 
   get "/html" do 
-    render(conn, "html.html", secs: Counter.get_secs())
+    send_resp(conn, 200, @template_html)
   end
 
   get "/live" do 
-    render(conn, "live.html", secs: Counter.get_secs())
+    send_resp(conn, 200, @template_live)
   end
 
   get "/set_secs/:secs" do
