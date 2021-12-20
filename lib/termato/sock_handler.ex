@@ -4,21 +4,20 @@ defmodule Termato.SockHandler do
   # ----- Setup & Teardown Callbacks ----- 
   
   def init(req, state) do 
-    IO.puts("WEBSERVER INIT")
     {:cowboy_websocket, req, state}
   end
 
   def websocket_init(state) do 
     IO.inspect self(), label: "WEBSOCKET INIT"
+    Process.sleep(250)
     Termato.SockPidstore.add_client(self())
-    # :erlang.start_timer(10000, self(), "HEARTBEAT INIT") 
     {:ok, state}
   end
 
   def terminate(reason, _req, state) do 
     IO.inspect([self(), reason], label: "WEBSOCKET TERMINATE")
     Termato.SockPidstore.rm_client(self())
-    {:ok, state}
+    {:ok, state
   end
 
   # ----- API -----
@@ -54,17 +53,17 @@ defmodule Termato.SockHandler do
   end
 
   def websocket_info(data, state) do 
-    IO.inspect data, label: "INFODATA"
+    # IO.inspect data, label: "INFODATA"
     {[{:text, data}], state} 
   end
 
   def websocket_handle({:text, message = "HEARTBEAT"}, state) do 
-    IO.inspect self(), label: "HEARTBEAT"
+    # IO.inspect self(), label: "HEARTBEAT"
     {[{:text, message}], state} 
   end
 
   def websocket_handle({:text, message}, state) do 
-    IO.inspect message, label: "MESSAGE"
+    # IO.inspect message, label: "MESSAGE"
     {[{:text, message}], state} 
   end
 
