@@ -1,0 +1,20 @@
+[Unit]
+Description=Termato
+After=network.target
+
+[Service]
+Type=simple
+User=aleak
+Group=aleak
+WorkingDirectory=/home/aleak
+ExecStart=/bin/bash --login -c 'source /home/aleak/.bashrc; cd /home/aleak; /home/aleak/util/code_util/bin/termato foreground'
+Restart=on-failure
+RestartSec=5
+Environment=PORT=5555
+Environment=LANG=en_US.UTF-8
+SyslogIdentifier=termato
+RemainAfterExit=no
+
+[Install]
+WantedBy=multi-user.target
+

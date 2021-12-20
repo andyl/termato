@@ -26,6 +26,28 @@ Mix.install([{:termato, github: "andyl/termato"}])
 Termato.Application.start_run()
 ```
 
+## Using SystemD
+
+Get started...
+
+- edit the SystemD service file in `rel/termato.service`
+- `sudo cp rel/termato.service /etc/systemd/system`
+- `sudo chmod 644 /etc/systemd/system/termato.service`
+
+Start the service with SystemD
+
+- `sudo systemctl start termato`
+- `sudo systemctl status termato`
+- `sudo systemctl restart termato`
+- `sudo systemctl stop termato`
+- `sudo journalctl -u termato -f`
+
+Make sure your service starts when the system reboots
+
+- `sudo systemctl enable termato`
+
+Reboot and test!
+
 ## Websocket Client 
 
 The Termato server has a websocket listener.  There is a client script
