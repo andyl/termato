@@ -17,7 +17,7 @@ defmodule Termato.SockHandler do
   def terminate(reason, _req, state) do 
     IO.inspect([self(), reason], label: "WEBSOCKET TERMINATE")
     Termato.SockPidstore.rm_client(self())
-    {:ok, state
+    {:ok, state} 
   end
 
   # ----- API -----
