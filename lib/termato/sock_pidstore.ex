@@ -25,8 +25,10 @@ defmodule Termato.SockPidstore do
   end
 
   def add_client(pid) do
-    new_pids = clients() |> Enum.concat([pid])
-    Agent.update(@process_name, fn(_) -> new_pids end)
+    Agent.get_and_update(@process_name, fn(list) -> 
+      new_list = list |> Enum.concat([pid])
+      {list, new_list}
+    end)
   end
 
   def rm_client(pid) do
