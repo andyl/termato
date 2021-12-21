@@ -41,7 +41,6 @@ defmodule Termato.HttpServer do
         "html" -> Util.Template.html() 
         _ -> raise("Bad template")
       end
-      |> IO.inspect(label: "APPDIR")
       |> EEx.eval_string(assigns)
 
     send_resp(conn, (status || 200), body)
