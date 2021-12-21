@@ -56,6 +56,7 @@ defmodule Termato.Counter do
 
   @spec set_secs(integer()) :: :ok 
   def set_secs(new_secs) do
+    update_history(new_secs)
     Agent.update(@process_name, fn(_) -> new_secs end)
   end
 
@@ -92,6 +93,13 @@ defmodule Termato.Counter do
   @spec to_s() :: String.t()
   def to_s do 
     get_secs() |> Util.Seconds.to_s()
+  end
+
+  defp update_history(secs) do
+    old_secs = get_secs() 
+    date = Util.Time.now()
+
+    "#{date},#{old_secs},#{secs}" |> Util.History.write()
   end
 
 end

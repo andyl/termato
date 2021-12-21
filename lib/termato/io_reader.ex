@@ -90,6 +90,7 @@ defmodule Termato.IoReader do
       - s :  5 mins (short break - between tasks)
       - z :  5 secs (test)
       - c : clear screen
+      - h : history (last 20 events)
       - ? : help (this text)
       - x : terminate
     """

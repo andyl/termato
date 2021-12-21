@@ -4,7 +4,13 @@
     <style>
       td {
         text-align: center; 
+      }
+      .menu td {
         padding: 40px;
+      }
+      .history td {
+        padding-left: 30px;
+        padding-right: 30px;
       }
       #display {
         padding-top: 30px;
@@ -27,6 +33,9 @@
       .text {
         padding: 5px 10px 5px 10px;
       }
+      hr {
+        margin-bottom: 40px;
+      }
     </style>
   </head>
   <body>
@@ -34,7 +43,7 @@
     <h1>TERMATO</h1>
     <h2 id="display"></h2>
     <p>
-    <table>
+    <table class="menu">
       <tr>
         <td>
           <a href="/set_mins/25?redirect=live">25 mins</a><br/>tomato task 
@@ -49,6 +58,17 @@
           <a href="/set_secs/5?redirect=live">5 secs</a><br/>test
         </td>
       </tr>
+    </table>
+    <hr>
+    <table class="history">
+      <tr><th>Date</th><th>Remaining</th><th>Reset</th></tr>
+      <%= for [x, y, z] <- history do %>
+        <tr>
+          <td><%= x %></td>
+          <td><%= y %></td>
+          <td><%= z %></td>
+        </tr>
+      <% end %>
     </table>
     </center>
 
