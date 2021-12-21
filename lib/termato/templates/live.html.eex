@@ -74,13 +74,14 @@
 
     <script>
         console.log("JAVASCRIPT INIT"); 
-        const ws = new WebSocket("ws://" + window.location.host + "/sock");
+        const setupWs = () => {
+            let ws = new WebSocket("ws://" + window.location.host + "/sock");
+            var heartbeat;
             ws.addEventListener("open", () => {
                     console.log("WEBSOCK CONNECTED");
-                    setInterval(() => { ws.send('{"type": "HEARTBEAT"}')}, 30000)
+                    heartbeat = setInterval(() => { ws.send('{"type": "HEARTBEAT"}')}, 30000)
                   });
             ws.addEventListener("message", event => {
-                    // console.log(event);
                     let data = JSON.parse(event.data); 
                     if (data["type"] == "TICK") {
                       let secs = data["secs"];
@@ -92,6 +93,16 @@
                       document.getElementById("display").innerHTML = html; 
                     } 
                   }); 
+            ws.addEventListener("close", event => {
+                    console.log("WEBSOCK CLOSE")
+                    console.log(event);
+                    clearInterval(heartbeat); 
+                    document.getElementById("title").innerHTML = "TERMATO (Server Down)"
+                    document.getElementById("display").innerHTML = "<span class='text red'>SERVER DOWN</span"
+                    setTimeout(() => { console.log("CONNECT RETRY"); setupWs(); }, 10000)
+                  }); 
+              }; 
+        setupWs(); 
     </script>
   </body>
 </html>

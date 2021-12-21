@@ -62,7 +62,6 @@ defmodule Termato.HttpServer do
 
   get "/" do
     history = Util.History.decode_recent(30) 
-    IO.inspect history, label: "HISTORY"
     render(conn, "live", history: history, note: "asdf")
   end
 
