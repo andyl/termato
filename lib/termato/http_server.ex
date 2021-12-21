@@ -30,6 +30,10 @@ defmodule Termato.HttpServer do
     "http://localhost:#{@http_port}"
   end
 
+  def raw_url do
+    base_url() <> "/raw"
+  end
+
   defp render(%{status: status} = conn, template, assigns) do
     body =
       case template do

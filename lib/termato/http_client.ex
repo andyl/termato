@@ -24,7 +24,7 @@ defmodule Termato.HttpClient do
   end
 
   def get_secs do 
-    case HtClient.get(base_url()) do
+    case HtClient.get(raw_url()) do
       {:ok, response} -> response.body |> Integer.parse() |> elem(0)
       _ -> :server_not_found
     end
@@ -47,5 +47,6 @@ defmodule Termato.HttpClient do
   end
 
   defdelegate base_url, to: Termato.HttpServer
+  defdelegate raw_url, to: Termato.HttpServer
 
 end
