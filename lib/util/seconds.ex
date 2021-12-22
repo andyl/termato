@@ -14,6 +14,15 @@ defmodule Util.Seconds do
     [xdays, xhors, "#{mins}m", "#{secs}s"] |> Enum.join(" ") |> String.trim()
   end
 
+  def signed_to_s(secs) when is_integer(secs) do
+    sign = if secs < 0, do: "-", else: ""
+    sign <> to_s(secs)
+  end
+
+  def signed_to_s(secs) do 
+    secs |> String.to_integer() |> signed_to_s()
+  end
+
   def klas(secs) do 
     cond do 
       secs < 0   -> "red"

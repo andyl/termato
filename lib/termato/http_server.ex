@@ -61,8 +61,8 @@ defmodule Termato.HttpServer do
   end
 
   get "/" do
-    history = Util.History.decode_recent(30) 
-    render(conn, "live", history: history, note: "asdf")
+    history = Util.History.decode_recent_to_s(30) 
+    render(conn, "live", history: history)
   end
 
   get "/raw" do 
@@ -84,7 +84,7 @@ defmodule Termato.HttpServer do
   get "/history" do
     conn
     |> put_resp_header("Content-Type", "text/plain")
-    |> send_resp(200, Util.History.recent_lines())
+    |> send_resp(200, Util.History.recent_lines_to_s())
   end
 
   get "/html" do 
@@ -92,7 +92,7 @@ defmodule Termato.HttpServer do
   end
 
   get "/live" do 
-    history = Util.History.decode_recent(30) 
+    history = Util.History.decode_recent_to_s(30) 
     render(conn, "live", history: history)
   end
 

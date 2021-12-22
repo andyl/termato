@@ -1,6 +1,8 @@
 defmodule Util.History do
   @history_file "~/.termato.csv"
 
+  alias Util.Seconds, as: S
+
   def filename do 
     @history_file 
     |> Path.expand()
@@ -28,6 +30,17 @@ defmodule Util.History do
     |> Enum.map(&(&1))
     |> Enum.reverse()
     |> Enum.take(num)
+  end
+
+  def decode_recent_to_s(num \\ 20) do 
+    decode_recent(num) 
+    |> Enum.map(fn([date, sec1, sec2]) -> [date, S.signed_to_s(sec1), S.signed_to_s(sec2)] end)
+  end
+
+  def recent_lines_to_s(num \\ 20) do 
+    decode_recent_to_s(num)
+    |> Enum.map(&(&1 |> Enum.join(",")))
+    |> Enum.join("\n")
   end
 
   def recent_lines(num \\ 20) do
