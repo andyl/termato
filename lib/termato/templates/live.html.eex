@@ -1,6 +1,7 @@
 <html>
   <head>
     <title id='title'>TERMATO</title>
+    <meta charset="utf-8"/>
     <style>
       td {
         text-align: center; 
@@ -88,9 +89,10 @@
                       let secs = data["secs"];
                       let text = data["text"]; 
                       let klas = data["klas"]; 
+                      let code = secs > 0 ? "8595" : "8593"; 
                       let html = `<span class='text ${klas}'>${text}</span>`; 
-                      let titl = `TERMATO | ${text}`
-                      document.getElementById("title").innerHTML = titl
+                      let titl = `TERMATO &#${code}; ${text}`; 
+                      document.getElementById("title").innerHTML = titl; 
                       document.getElementById("display").innerHTML = html; 
                     } 
                   }); 
